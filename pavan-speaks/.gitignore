@@ -1,0 +1,12 @@
+# Media never goes into git (too large, and footage stays private)
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.m4a
+*.aac
+*.mp3
+work/**
+!work/**/.gitkeep
+exports/**
+!exports/.gitkeep
