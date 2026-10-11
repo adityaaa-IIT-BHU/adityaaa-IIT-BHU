@@ -33,7 +33,7 @@
 | FFmpeg / ffprobe 6.1.1 | ✅ | libx264, AAC, `subtitles`/`ass`, `drawtext`, `loudnorm`, `afftdn`, `arnndn`, `zoompan`, `xfade` |
 | Python 3.13.16 | ✅ | numpy 2.5.3, Pillow 12.3.0 |
 | opencv, moviepy, pysubs2, librosa | ❌ | Not installed. They can be installed from PyPI; FFmpeg covers most of the work |
-| faster-whisper / torch | ❌ | Not installed. The package can come from PyPI, but the **model download needs `huggingface.co`** |
+| faster-whisper / torch | ❌ | Not installed here. A parallel session installed faster-whisper 1.2.1 from PyPI without problems, but the **model download needs `huggingface.co`**, which is blocked |
 | GPU | ❌ | CPU only: 4 cores, 15 GB RAM |
 
 ## 4. Fonts
@@ -41,7 +41,9 @@
 | Script | Status |
 |---|---|
 | English (on-screen graphics) | ✅ Inter (all weights, including Inter Display), DejaVu |
-| **Telugu (subtitles)** | ❌ **No Telugu font installed.** Fix: `apt-get install fonts-noto-core` (includes Noto Sans/Serif Telugu), or download the font files from PyPI-hosted packages if apt is blocked |
+| **Telugu (subtitles)** | ⚠️ **Tested and working, but not present in this container.** A parallel session installed `fonts-noto-core` (Noto Sans/Serif Telugu) and confirmed that FFmpeg/libass renders conjuncts correctly: see `reports/telugu-render-test.png`. Cloud containers are temporary, so repeat `sudo apt-get install -y fonts-noto-core` in each new session |
+
+Bilingual subtitle styles (Telugu above, English below, 1920×1080) are ready in `subtitles/bilingual-template.ass`.
 
 ## 5. Disk and render estimate
 
