@@ -1,7 +1,7 @@
 # Pavan Speaks — Environment Report
 
 **Project:** Telugu-English documentary on the CEC Gyanesh Kumar resignation controversy
-**Checked:** 2026-10-11 · **Status:** blocked on footage, Telugu font and transcription. No editing has started.
+**Checked:** 2026-10-11 (re-checked later the same day) · **Status:** Telugu font ✅ fixed. Still blocked on **footage** and the **Whisper model download**. No editing has started.
 
 > **Important:** this check ran in a **Linux cloud container (Claude Code on the web)**, not on your Windows PC. Your Windows tools, fonts and GPU were not checked. Where the Windows steps differ, they are listed separately below.
 
@@ -10,7 +10,7 @@
 | Check | Result |
 |---|---|
 | `input/raw.mp4` present | ❌ **Not found.** The repo has only `README.md` |
-| Google Drive link reachable | ❌ The environment's network policy **blocks `drive.google.com`** (proxy returned 403) |
+| Google Drive link reachable | ❌ Still **blocked** by the environment's network policy (`drive.google.com`, `drive.usercontent.google.com`) |
 | Duration / resolution / fps / codec / audio | ⏸ Pending. Run `scripts/probe.sh` once the file is in place |
 
 ## 2. Tools
@@ -20,8 +20,8 @@
 | FFmpeg / ffprobe 6.1.1 | ✅ | libx264, libx265, SVT-AV1, AAC, libass (`subtitles`/`ass`), `drawtext`, `loudnorm`, `afftdn`, `arnndn`, `silencedetect` |
 | Python 3.13.16 + pip 24.0 | ✅ | |
 | numpy 2.5, Pillow 12.3 | ✅ | |
-| opencv, moviepy, pysubs2, srt, soundfile, librosa, pydub | ❌ | Not installed (optional; FFmpeg covers most of the work) |
-| faster-whisper / openai-whisper / torch | ❌ | Not installed |
+| faster-whisper 1.2.1, pysubs2, soundfile | ✅ | Installed in the re-check (model still unavailable, see §4) |
+| opencv, moviepy, srt, librosa, pydub, torch | ❌ | Not installed (optional; FFmpeg covers most of the work) |
 | GPU (NVENC / CUDA) | ❌ | Not present. CPU only, 4 cores, 15 GB RAM |
 
 ## 3. Fonts
@@ -29,13 +29,17 @@
 | Script | Status |
 |---|---|
 | English | ✅ Inter (all weights), DejaVu, Liberation, Noto Color Emoji |
-| **Telugu** | ❌ **No proper Telugu font.** Only Unifont, a bitmap fallback that is not usable for titles or subtitles |
+| **Telugu** | ✅ **Installed** `fonts-noto-core`: Noto Sans Telugu and Noto Serif Telugu (Regular and Bold). FFmpeg/libass renders conjuncts correctly. See `reports/telugu-render-test.png` |
+
+Bilingual subtitle styles (Telugu above, English below, 1920×1080) are in `subtitles/bilingual-template.ass`.
+
+Note: this cloud container is temporary, so the font install has to be repeated in each new session (`sudo apt-get install -y fonts-noto-core`).
 
 Recommended: **Noto Sans Telugu** for subtitles and **Noto Serif Telugu** or **Ramabhadra** for titles. All are free under the OFL licence.
 
 ## 4. Local transcription
 
-**Not possible yet.** The software is not installed, and `huggingface.co`, where the Whisper models are hosted, is **blocked** here. PyPI is reachable.
+**Not possible yet.** `faster-whisper` 1.2.1, `pysubs2` and `soundfile` are now installed from PyPI, but `huggingface.co`, where the Whisper models are hosted, is still **blocked**, so no model can be downloaded.
 Telugu-English code-mixed speech needs a large model (`large-v3`, ~3 GB). On 4 CPU cores, plan for about **1–1.5× the video's length** with int8. A human pass over the Telugu text is still required.
 
 ## 5. Disk and render estimate
