@@ -1,7 +1,7 @@
 # Pavan Speaks — Environment Report
 
 **Project:** Telugu-English documentary on the CEC Gyanesh Kumar resignation controversy
-**Checked:** 2026-10-11 · **Status:** blocked on footage, Telugu font and transcription. No editing has started.
+**Checked:** 2026-10-11 (re-checked) · **Status:** footage located on Drive, but it **cannot be transferred into this container**. Telugu font and transcription are also blocked. No editing has started.
 
 > **Important:** this check ran in a **Linux cloud container (Claude Code on the web)**, not on your Windows PC. Your Windows tools, fonts and GPU were not checked. Where the Windows steps differ, they are listed separately below.
 
@@ -9,8 +9,10 @@
 
 | Check | Result |
 |---|---|
-| `input/raw.mp4` present | ❌ **Not found.** The repo has only `README.md` |
-| Google Drive link reachable | ❌ The environment's network policy **blocks `drive.google.com`** (proxy returned 403) |
+| `input/raw.mp4` present | ❌ Not in the container |
+| Drive file located | ✅ `Pavan raw video.mp4` · ID `1hnIjcG3AJ_fVfJCA3Wgy7M4-msRGWqVi` · 668,740,305 bytes (≈669 MB) · video/mp4 · owned by you |
+| Direct download | ❌ The network policy **blocks `drive.google.com`** (the proxy returned 403 on CONNECT) |
+| Google Drive connector | ⚠️ It can read metadata, but `download_file_content` returns the file as base64 text inside the model context. A 669 MB video (≈890 MB of base64) cannot be passed through that route |
 | Duration / resolution / fps / codec / audio | ⏸ Pending. Run `scripts/probe.sh` once the file is in place |
 
 ## 2. Tools
